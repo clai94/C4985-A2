@@ -1,0 +1,120 @@
+COMP4985 A2 Client Pseudo Code 
+
+S1: Ceate Main Window
+    initialize main window processes
+    if successful go to S2
+    else exit
+
+S2: Select Receiver or Sender
+    prompt user for receiver or sender function
+    if client selected
+        go to S3
+    else go to R3
+
+S3: IDLE
+    wait for user input
+    set default values for packet size and times to send
+    if config ip pressed
+        go to O1
+    if send config pressed
+        go to O2
+    if port and protocol config pressed
+        go to O3
+    if send a file pressed
+        go to S4
+
+O1: IP Config
+    prompt user for IP address with dialog box
+    if IP address entered
+        go to O1.2
+    else return to S3
+
+O1.2: IP Validation
+    validate IP address
+    if IP address is valid
+        display success message
+        save/set IP address
+        return to S3
+    else
+        prompt user for valid IP address
+
+O2: Packet Config
+    prompt user for packet size and times to send with dialog box
+    if packet size and times to send entered
+        save/set selection
+        return to S3
+    else
+        return to S3
+
+O3: Port/Protocol Configuration
+    prompt user for port number and protocol(udp or tcp)
+    if port number and protocol selected
+        save/set selection
+        return to S3
+    else
+        return to S3
+
+S4: Establish Connection
+    check if IP address exists
+    if IP address is not set
+        go to O1
+    else if port/protocol is not set
+        go to O3
+    else 
+        try to connect
+        if connect fails
+            go to E1
+        else 
+            go to S5
+
+S5: Create socket
+    if socket initialized 
+        set socket to receive data
+        bind IP address to socket
+        go to S6
+    else
+        go to E1
+
+S6: Prompt for File
+    prompt user to select a file via dialog box
+    go to S7
+
+S7: Packetize file based on protocol
+    if protocol is UDP
+        if no user specificed size
+            convert file to binary packets with default size
+            put packets into buffer
+        else
+            convert file to binary packets with specified size
+            put packets into buffer
+
+    else protocol is TCP
+        if no user specificed size
+            convert file to binary packets with default size
+            put packets into buffer
+        else
+            convert file to binary packets with specified size
+            put packets into buffer
+
+    if file is successfully packetized
+        display success message
+        go to S8
+    else 
+        go to E1
+
+S8: Send
+    check packet buffer
+    if empty
+        go to E1
+    else 
+        send packet by packet via socket
+    if all packets sent
+        display success msg
+        go to S6
+    else
+        go to E1
+
+E1: Error Messages
+    receive error message
+    display corresponding error message
+    go to S3

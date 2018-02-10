@@ -1,0 +1,71 @@
+COMP4985 A2 Server Pseudo Code 
+
+R1: Ceate Main Window
+    initialize main window processes
+    if successful go to R2
+    else exit
+
+R2: Select Receiver or Sender
+    prompt user for receiver or sender function
+    if sender selected
+        go to R3
+    else go to S3
+
+R3: IP Address
+    create dialog box for user input
+    store ip address received from user 
+    go to R4
+
+R4: IP Validation
+    validate IP address format
+    if IP address is valid
+        go to R5
+    else 
+        return to R3
+
+R5: Create socket
+    initialize socket to listen data
+    bind socket to ip address
+    if successful
+        go to R6
+    else go to E1
+
+R6: Bind socket
+    bind socket to user provided ip address and port
+    if successful
+        go to R7
+
+R7: Listen for Connection
+    listen for connections
+    go to R8
+
+R8: Accept connection
+    accept connection with new socket
+    if successful
+    go to R9
+
+R9: File Selection
+    prompt user for file via dialog box
+    open file for reading
+    go to R10
+
+R10: Packetize file
+    create packets based on selected protocol
+    use packetsize specified by user, default size if none
+    add packets to output buffer
+    go to R11
+
+R11: Send
+    while output buffer is not empty  
+        send packet
+        check for ack
+        if ack received
+            move to next packet
+            continue
+        else   
+            resend packet
+
+    when buffer is empty
+        prompt user for another file
+        if user hits cancel
+            return to IDLE
